@@ -1,15 +1,15 @@
 import os
 import json
 
-# Definir carpeta donde se almacenarán los clientes
 CLIENTES_DIR = "clientes"
 
-# Si la carpeta no existe, crearla
 if not os.path.exists(CLIENTES_DIR):
     os.makedirs(CLIENTES_DIR)
 
 def crear_cliente(nombre, servicio):
-
+    """
+    Crea un nuevo cliente o agrega un servicio a un cliente existente.
+    """
     archivo = f"{CLIENTES_DIR}/{nombre}.json"
     
     if os.path.exists(archivo):  # Si el cliente ya existe, agregar el nuevo servicio
@@ -18,7 +18,7 @@ def crear_cliente(nombre, servicio):
             data["servicios"].append(servicio)
             f.seek(0)
             json.dump(data, f, indent=4)
-    else:  # Si el cliente no existe, crear un nuevo archivo
+    else:  
         cliente = {"nombre": nombre, "servicios": [servicio]}
         with open(archivo, "w") as f:
             json.dump(cliente, f, indent=4)
@@ -26,7 +26,9 @@ def crear_cliente(nombre, servicio):
     print(f"Cliente {nombre} actualizado con el servicio {servicio}")
 
 def consultar_cliente(nombre):
-
+    """
+    Consulta los datos de un cliente y sus servicios contratados.
+    """
     archivo = f"{CLIENTES_DIR}/{nombre}.json"
     
     if os.path.exists(archivo):
@@ -37,10 +39,11 @@ def consultar_cliente(nombre):
         return None
 
 def listar_clientes():
- 
+    """
+    Lista todos los clientes registrados en el sistema.
+    """
     return [f.split(".")[0] for f in os.listdir(CLIENTES_DIR) if f.endswith(".json")]
 
-# Menú interactivo en la terminal
 if __name__ == "__main__":
     while True:
         print("\n1. Agregar Cliente")
